@@ -10,6 +10,7 @@ class Plane {
   }
 }
 
+//uses metadata to wire up router
 function controller(target: typeof Plane) {
   for (let key in target.prototype) {
     const path = Reflect.getMetadata("path", target.prototype, key);
@@ -17,9 +18,10 @@ function controller(target: typeof Plane) {
   }
 }
 
-function get(secretInfo: string) {
+//adds metadata
+function get(path: string) {
   return function (target: Plane, key: string, desc: PropertyDescriptor) {
-    Reflect.defineMetadata("path", secretInfo, target, key);
+    Reflect.defineMetadata("path", path, target, key);
   };
 }
 
